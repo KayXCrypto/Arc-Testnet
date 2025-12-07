@@ -179,7 +179,7 @@ const BridgePage = () => {
         if (!isConnected) {
             // Logic kết nối ví nên được xử lý ở ngoài (ví dụ: ConnectKit/Web3Modal)
             // Tạm thời hiển thị cảnh báo
-            alert("Vui lòng kết nối ví.");
+            alert("Please Connect Wallet.");
             return;
         }
 

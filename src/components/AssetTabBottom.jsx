@@ -5,7 +5,7 @@ import '../styles/bottom.css'
 
 const AssetTabBottom = () => {
     // ⚠️ CẦN CẬP NHẬT: Thay thế bằng link faucet THỰC TẾ của Arc Testnet
-    const FAUCET_LINK = "https://faucet.arc-testnet.io/";
+    const FAUCET_LINK = "https://faucet.circle.com";
 
     // Đường dẫn hình ảnh USDC mới
     const USDC_LOGO_URL = "https://cryptologos.cc/logos/usd-coin-usdc-logo.svg?v=040";

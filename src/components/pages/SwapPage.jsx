@@ -131,7 +131,7 @@ const SwapPage = () => {
         }
 
         if (!fromAmount || parseFloat(fromAmount) <= 0 || exchangeRate <= 0) {
-            alert('Please enter a valid amount and wait for the rate to finish loading..');
+            // alert('Please enter a valid amount and wait for the rate to finish loading..');
             return;
         }
 
@@ -150,12 +150,12 @@ const SwapPage = () => {
             const amountToSwap = parseFloat(fromAmount);
 
             // 1. Phê duyệt (Approve) token
-            alert(`${fromToken} approval required for the Swap contract to use ${amountToSwap} ${fromToken}. Please confirm in your wallet.`);
+            // alert(`${fromToken} approval required for the Swap contract to use ${amountToSwap} ${fromToken}. Please confirm in your wallet.`);
 
             // 
             await swapService.approveToken(fromToken, amountToSwap);
 
-            alert(`${fromToken} approved successfully! Starting swap…`);
+            // alert(`${fromToken} approved successfully! Starting swap…`);
 
             // 2. Thực hiện Swap
             const receipt = await swapService.executeSwap(
@@ -168,12 +168,12 @@ const SwapPage = () => {
 
             console.log('Swap Receipt:', receipt);
 
-            alert(`Swap Success!\n${fromAmount} ${fromToken} → ${toAmount} ${toToken}\nTransaction Hash: ${receipt.transactionHash}`);
+            // alert(`Swap Success!\n${fromAmount} ${fromToken} → ${toAmount} ${toToken}\nTransaction Hash: ${receipt.transactionHash}`);
             setFromAmount('');
             setToAmount('');
         } catch (error) {
             console.error('Swap error:', error);
-            alert(`Swap failed. Error: ${error.message}`);
+            // alert(`Swap failed. Error: ${error.message}`);
         } finally {
             setIsLoading(false);
         }

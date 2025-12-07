@@ -15,7 +15,7 @@ import {
  */
 export const getProvider = () => {
   if (!window.ethereum) {
-    alert("Không tìm thấy MetaMask.");
+    alert("Not Found MetaMask.");
     throw new Error("No MetaMask");
   }
   // ethers.BrowserProvider là cách dùng mới (ethers v6)

@@ -66,7 +66,7 @@ const Header = () => {
           <div className="flex items-center gap-2 bg-gray-800 px-4 py-2 rounded-lg">
             <span className="text-yellow-500">🔥</span> {/* Đổi icon thành lửa cho Gas */}
             {/* Hiển thị giá gas được fetch */}
-            <span className="font-semibold">{isLoading ? 'Đang tải...' : gasPrice}</span>
+            <span className="font-semibold">{isLoading ? 'Loading...' : gasPrice}</span>
           </div>
           <ConnectButton
             chainStatus="full"
