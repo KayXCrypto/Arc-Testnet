@@ -100,7 +100,7 @@ const SwapPage = () => {
                 setExchangeRate(rate);
             } catch (error) {
                 console.error("Failed to fetch exchange rate:", error);
-                alert(`Error fetching rate: ${error.message}. Please check your configuration.`);
+                // alert(`Error fetching rate: ${error.message}. Please check your configuration.`);
                 setExchangeRate(0); // Set về 0 nếu lỗi để chặn swap
             }
         };
