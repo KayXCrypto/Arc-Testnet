@@ -1,0 +1,353 @@
+/* --- BASE & CONTAINER STYLES (Mint Page) --- */
+
+/* Wrapper ngoài cùng, có thể loại bỏ nếu App.jsx đã xử lý nền */
+.mint-page-wrapper {
+    background-color: #0f172a;
+    /* Nền xanh đen sâu */
+    min-height: 100vh;
+    padding: 40px 20px;
+}
+
+/* Container cũ (giữ lại nếu có thể, nhưng MintPage.jsx dùng .mint-content-container) */
+.mint-container {
+    max-width: 900px;
+    /* Giữ nguyên hoặc có thể bỏ nếu không dùng */
+    margin: 0 auto;
+    background-color: #1e293b;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+/* ⭐ CONTAINER CHỨA NỘI DUNG CHÍNH (Đã tăng chiều rộng lên 1100px) */
+.mint-content-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    background-color: #1e293b;
+    /* Nền container chính */
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+.mint-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.mint-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 5px;
+}
+
+.mint-subtitle {
+    font-size: 1rem;
+    color: #94a3b8;
+    /* Xám xanh nhạt */
+}
+
+/* --- MINT CARD LAYOUT --- */
+
+.mint-card-grid {
+    display: grid;
+    /* ⭐ Tỉ lệ 2.5fr cho Card (62.5%) và 1.5fr cho Controls (37.5%) */
+    grid-template-columns: 2.5fr 1.5fr;
+    gap: 30px;
+    margin-top: 30px;
+}
+
+@media (max-width: 900px) {
+    .mint-card-grid {
+        grid-template-columns: 1fr;
+        /* Stack trên màn hình nhỏ */
+    }
+}
+
+/* --- PREMIUM CARD MOCKUP (LEFT COLUMN) --- */
+.premium-card-mockup {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: #1a202c;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #334155;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    /* Thêm box-shadow từ gợi ý trước */
+}
+
+/* ⭐ CARD IMAGE CONTAINER (Tăng chiều cao) */
+.card-image-placeholder {
+    height: 500px;
+    /* Chiều cao đã tăng */
+    background: linear-gradient(135deg, #1f2937, #0f172a);
+    /* Nền gradient nhẹ */
+    border: 3px solid #3b82f6;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    /* Đảm bảo tên hiển thị nổi bật trên ảnh */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ⭐ STYLE CHO ẢNH THẺ THỰC TẾ */
+.card-image-actual {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    /* Ảnh nằm dưới tên */
+}
+
+/* ⭐ STYLE CHO TÊN TRÊN ẢNH */
+.card-name-preview {
+    position: absolute;
+    left: 10%;
+    bottom: 20%;
+    font-size: 1.5rem;
+    /* Cỡ chữ đã tăng */
+    font-family: monospace;
+    font-weight: 700;
+    color: #e2e8f0;
+    letter-spacing: 3px;
+    transform: rotate(-5deg);
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.8), 0 0 10px #3b82f6;
+    z-index: 2;
+    /* Tên nằm trên ảnh */
+}
+
+.card-info-box {
+    background-color: #0f172a;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.card-info-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #334155;
+    padding-bottom: 5px;
+}
+
+.card-benefits-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.card-benefits-list li {
+    font-size: 0.9rem;
+    color: #a0a0a0;
+    line-height: 1.6;
+    margin-bottom: 5px;
+    padding: 8px 0;
+    /* Tăng padding từ gợi ý trước */
+    border-bottom: 1px dashed #334155;
+    /* Thêm border bottom từ gợi ý trước */
+}
+
+.card-benefits-list li::before {
+    content: "•";
+    color: #3b82f6;
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}
+
+/* --- MINT CONTROLS (RIGHT COLUMN) --- */
+.mint-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px 0;
+    /* Đảm bảo controls có padding hợp lý */
+}
+
+.user-name-input-group .input-label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #94a3b8;
+}
+
+.user-name-input-group .name-input-field {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #475569;
+    background-color: #0f172a;
+    color: white;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.user-name-input-group .name-input-field:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.mint-stats {
+    display: flex;
+    justify-content: space-between;
+    background-color: #1a202c;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #334155;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #3b82f6;
+    display: block;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: #94a3b8;
+}
+
+.status-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #253347;
+    border: 1px solid #334155;
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.balance-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    padding: 5px 0;
+}
+
+.balance-info .value {
+    font-weight: 600;
+    color: #3b82f6;
+}
+
+/* --- ACTION BUTTONS --- */
+.mint-action-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    gap: 10px;
+}
+
+.mint-action-button.approve {
+    background-color: #4f46e5;
+    /* Indigo/Purple for Approve */
+}
+
+.mint-action-button.approve:hover:not(:disabled) {
+    background-color: #4338ca;
+}
+
+.mint-action-button.mint {
+    background-color: #3b82f6;
+    /* Blue for Mint */
+}
+
+.mint-action-button.mint:hover:not(:disabled) {
+    background-color: #2563eb;
+}
+
+.mint-action-button.success {
+    background-color: #10b981;
+    /* Green for Success */
+    cursor: default;
+}
+
+.mint-action-button.disabled {
+    background-color: #475569;
+    opacity: 0.6;
+    cursor: not-allowed;
+    color: #e2e8f0;
+}
+
+.mint-action-button.loading {
+    background-color: #334155;
+    opacity: 0.8;
+    cursor: wait;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.mint-info-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    color: #94a3b8;
+    margin-top: 5px;
+    text-align: left;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 900px) {
+    .mint-card-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mint-content-container {
+        padding: 20px;
+    }
+
+    .card-name-preview {
+        font-size: 1.2rem;
+        bottom: 15%;
+    }
+}
+
+@media (max-width: 768px) {
+    .mint-title {
+        font-size: 2rem;
+    }
+
+    .premium-card-mockup {
+        padding: 15px;
+    }
+
+    .card-image-placeholder {
+        height: 200px;
+        /* Giảm chiều cao trên mobile */
+    }
+}

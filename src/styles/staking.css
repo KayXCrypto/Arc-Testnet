@@ -1,0 +1,470 @@
+/* src/styles/staking.css */
+
+/* ==================================================== */
+/* CẤU HÌNH TỔNG QUÁT (Giả định cho Dark Mode) */
+/* ==================================================== */
+:root {
+    --primary-color: #4f46e5;
+    /* indigo-600 */
+    --secondary-color: #3b82f6;
+    /* blue-500 */
+    --accent-color: #8b5cf6;
+    /* violet-500 */
+    --bg-dark: #1f2937;
+    /* gray-800 */
+    --bg-darker: #111827;
+    /* gray-900 */
+    --text-light: #f3f4f6;
+    /* gray-100 */
+    --success-color: #10b981;
+    /* emerald-500 */
+    --error-color: #ef4444;
+    /* red-500 */
+}
+
+/* ==================================================== */
+/* STAKING ACTION CARD (StakeActionCard.jsx) */
+/* ==================================================== */
+
+.stake-action-card {
+    background-color: var(--bg-darker);
+    border: 1px solid rgba(75, 85, 99, 0.4);
+    /* gray-600 */
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+}
+
+.stake-action-card .card-title {
+    font-size: 1.5rem;
+    /* text-2xl */
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
+.input-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.875rem;
+    /* text-sm */
+    color: #9ca3af;
+    /* gray-400 */
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 12px;
+    background-color: #1f2937;
+    /* gray-800 */
+    border: 1px solid #374151;
+    /* gray-700 */
+    border-radius: 8px;
+    color: var(--text-light);
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+    /* Dùng cho select */
+    appearance: none;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    padding-top: 5px;
+}
+
+.checkbox-group label {
+    margin-bottom: 0;
+    margin-left: 10px;
+    cursor: pointer;
+    color: var(--text-light);
+    font-size: 1rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    background-color: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Các Nút Hành động */
+.approve-btn,
+.stake-btn,
+.unstake-btn,
+.claim-btn {
+    width: 100%;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
+    text-align: center;
+}
+
+.approve-btn {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.approve-btn:hover:not(:disabled) {
+    background-color: #2563eb;
+    /* blue-600 */
+}
+
+.stake-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.stake-btn:hover:not(:disabled) {
+    background-color: #4338ca;
+    /* indigo-700 */
+}
+
+.unstake-btn {
+    background-color: #4b5563;
+    /* gray-600 */
+    color: white;
+}
+
+.unstake-btn:hover:not(:disabled) {
+    background-color: #374151;
+    /* gray-700 */
+}
+
+.claim-btn {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.claim-btn:hover:not(:disabled) {
+    background-color: #059669;
+    /* emerald-600 */
+}
+
+.approve-btn:disabled,
+.stake-btn:disabled,
+.unstake-btn:disabled,
+.claim-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.error-message {
+    color: var(--error-color);
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid var(--error-color);
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.success-message {
+    color: var(--success-color);
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid var(--success-color);
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+/* ==================================================== */
+/* STAKING CHART CARD (StakingChartCard.jsx) */
+/* ==================================================== */
+
+.chart-card {
+    background-color: var(--bg-darker);
+    border: 1px solid rgba(75, 85, 99, 0.4);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.chart-header .staking-value {
+    font-size: 1.875rem;
+    /* text-3xl */
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.chart-header .staking-value small {
+    font-size: 0.6em;
+    color: #9ca3af;
+    font-weight: 400;
+    display: block;
+}
+
+.chart-controls {
+    display: flex;
+    gap: 8px;
+    background-color: #1f2937;
+    padding: 4px;
+    border-radius: 8px;
+}
+
+.chart-controls .control-btn {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background-color: transparent;
+    color: #9ca3af;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.chart-controls .control-btn.active {
+    background-color: var(--accent-color);
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.chart-area-placeholder {
+    height: 250px;
+    /* Điều chỉnh chiều cao của biểu đồ */
+}
+
+.chart-loading-state {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #A0AEC0;
+}
+
+/* ==================================================== */
+/* TOKEN RATE CARD (TokenRateCard.jsx) */
+/* ==================================================== */
+
+.token-rate-card {
+    background-color: var(--bg-darker);
+    border: 1px solid rgba(75, 85, 99, 0.4);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+}
+
+.token-rate-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(75, 85, 99, 0.2);
+    padding-bottom: 15px;
+}
+
+.token-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #374151;
+    /* gray-700 */
+}
+
+.token-item:last-child {
+    border-bottom: none;
+}
+
+.token-details {
+    flex-grow: 1;
+    margin-left: 15px;
+}
+
+.token-details .symbol {
+    display: block;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+.token-details .name {
+    font-size: 0.875rem;
+    /* text-sm */
+    color: #9ca3af;
+    /* gray-400 */
+}
+
+.token-icon {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.token-item .rate {
+    font-weight: 700;
+    color: var(--success-color);
+    /* Giả định giá là tốt */
+    font-size: 1rem;
+}
+
+
+/* ==================================================== */
+/* RESPONSIVE MÀN HÌNH NHỎ */
+/* ==================================================== */
+
+@media (max-width: 1024px) {
+
+    .stake-action-card,
+    .chart-card,
+    .token-rate-card {
+        padding: 20px;
+    }
+
+    .chart-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .chart-controls {
+        width: 100%;
+        justify-content: space-around;
+    }
+}
+
+/* ==================================================== */
+/* LOCK PERIOD CARD (LockPeriodCard.jsx) */
+/* ==================================================== */
+
+.lock-card {
+    background-color: var(--bg-darker);
+    border: 1px solid rgba(75, 85, 99, 0.4);
+    /* gray-600 */
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    /* Có thể đặt card này vào một layout grid/flex nếu cần */
+}
+
+.lock-card h3 {
+    font-size: 1.5rem;
+    /* text-2xl */
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 5px;
+}
+
+.lock-date {
+    font-size: 0.875rem;
+    /* text-sm */
+    color: #9ca3af;
+    /* gray-400 */
+    margin-bottom: 25px;
+}
+
+/* Đồng hồ đếm ngược chính */
+.lock-timer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.timer-segment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1f2937;
+    /* gray-800 */
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #4b5563;
+    min-width: 65px;
+}
+
+.timer-value {
+    font-size: 2rem;
+    /* text-4xl */
+    font-weight: 800;
+    color: var(--accent-color);
+    /* Màu tím/xanh nổi bật */
+    line-height: 1.2;
+}
+
+.timer-label {
+    font-size: 0.75rem;
+    /* text-xs */
+    font-weight: 500;
+    color: #9ca3af;
+    /* gray-400 */
+    text-transform: uppercase;
+}
+
+.separator {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #4b5563;
+    /* gray-600 */
+}
+
+.locked-busd {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-light);
+    margin-bottom: 10px;
+}
+
+.lock-status {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--error-color);
+    /* Mặc định là màu đỏ (Lock Active) */
+    background: rgba(239, 68, 68, 0.1);
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: inline-block;
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 600px) {
+    .lock-timer {
+        gap: 5px;
+    }
+
+    .timer-segment {
+        padding: 8px 10px;
+        min-width: 50px;
+    }
+
+    .timer-value {
+        font-size: 1.5rem;
+    }
+
+    .separator {
+        font-size: 1.5rem;
+    }
+
+    .locked-busd {
+        font-size: 1.5rem;
+    }
+}

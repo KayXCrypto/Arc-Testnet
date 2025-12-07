@@ -1,0 +1,627 @@
+/* Swap Page Container */
+.swap-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #1e1b4b 0%, #4c1d95 50%, #5b21b6 100%);
+}
+
+.swap-container {
+    width: 100%;
+    max-width: 480px;
+    background: rgba(30, 27, 75, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* Header */
+.swap-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.swap-header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+.token-logo-img-large {
+    width: 40px;
+    /* Kích thước tương đương icon lama cũ */
+    height: 40px;
+    border-radius: 50%;
+    /* Làm tròn hình ảnh logo */
+    object-fit: contain;
+    /* Đảm bảo hình ảnh vừa vặn */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.settings-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: none;
+    background: rgba(139, 92, 246, 0.1);
+    color: #a78bfa;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.settings-button:hover {
+    background: rgba(139, 92, 246, 0.2);
+    transform: rotate(90deg);
+}
+
+.settings-button.active {
+    background: rgba(139, 92, 246, 0.3);
+    color: #c4b5fd;
+}
+
+/* Settings Panel */
+.settings-panel {
+    background: rgba(30, 27, 75, 0.6);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 16px;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.settings-item label {
+    display: block;
+    font-size: 13px;
+    color: #a78bfa;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.slippage-options {
+    display: flex;
+    gap: 8px;
+}
+
+.slippage-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(139, 92, 246, 0.1);
+    color: #c4b5fd;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.slippage-btn:hover {
+    background: rgba(139, 92, 246, 0.2);
+    border-color: rgba(139, 92, 246, 0.5);
+}
+
+.slippage-btn.active {
+    background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+    border-color: #8b5cf6;
+    color: #fff;
+}
+
+.slippage-input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    background: rgba(139, 92, 246, 0.1);
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+}
+
+.slippage-input:focus {
+    outline: none;
+    border-color: #8b5cf6;
+    background: rgba(139, 92, 246, 0.15);
+}
+
+.slippage-warning {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 10px;
+    background: rgba(251, 146, 60, 0.1);
+    border: 1px solid rgba(251, 146, 60, 0.3);
+    border-radius: 8px;
+    color: #fb923c;
+    font-size: 12px;
+}
+
+/* Swap Interface */
+.swap-interface {
+    position: relative;
+}
+
+/* Token Input Container with Dropdown */
+.token-input-container {
+    background: rgba(30, 27, 75, 0.6);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 8px;
+    position: relative;
+}
+
+.token-input-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.token-input-header .label {
+    font-size: 13px;
+    color: #a78bfa;
+    font-weight: 500;
+}
+
+.token-input-header .balance {
+    font-size: 13px;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.max-button {
+    background: rgba(139, 92, 246, 0.2);
+    border: none;
+    padding: 4px 10px;
+    border-radius: 6px;
+    color: #a78bfa;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.max-button:hover {
+    background: rgba(139, 92, 246, 0.3);
+    color: #c4b5fd;
+}
+
+.token-input {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.token-input input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 28px;
+    font-weight: 600;
+    outline: none;
+}
+
+.token-input input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.token-input input:disabled {
+    opacity: 0.5;
+}
+
+.token-select-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: rgba(139, 92, 246, 0.2);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.token-select-button:hover {
+    background: rgba(139, 92, 246, 0.3);
+    border-color: rgba(139, 92, 246, 0.5);
+}
+
+.token-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* .token-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff;
+} */
+
+/* .token-icon.usdc {
+    background: linear-gradient(135deg, #2775ca 0%, #5294e0 100%);
+}
+
+.token-icon.eurc {
+    background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+}
+
+.token-icon.usdt {
+    background: linear-gradient(135deg, #26a17b 0%, #50af95 100%);
+} */
+
+.token-logo-img-small {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: contain;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.token-symbol {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+}
+
+/* Swap Direction Button */
+.swap-direction-button {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: 2px solid rgba(30, 27, 75, 1);
+    background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+}
+
+.swap-direction-button:hover {
+    transform: translate(-50%, -50%) rotate(180deg);
+    box-shadow: 0 6px 16px rgba(139, 92, 246, 0.6);
+}
+
+.swap-direction-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Exchange Info */
+.exchange-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 12px;
+    margin-top: 12px;
+    color: #c4b5fd;
+    font-size: 14px;
+}
+
+/* Connect Wallet Wrapper */
+.connect-wallet-wrapper {
+    margin-top: 16px;
+}
+
+.connect-wallet-wrapper button {
+    width: 100%;
+    padding: 16px;
+    border-radius: 16px;
+    border: none;
+    background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.connect-wallet-wrapper button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+}
+
+/* Swap Action Button */
+.swap-action-button {
+    width: 100%;
+    padding: 16px;
+    border-radius: 16px;
+    border: none;
+    background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.swap-action-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+}
+
+.swap-action-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Transaction Details */
+.transaction-details {
+    margin-top: 16px;
+    background: rgba(30, 27, 75, 0.6);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.transaction-details h3 {
+    font-size: 14px;
+    color: #a78bfa;
+    margin: 0 0 12px 0;
+    font-weight: 600;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+.detail-row span:last-child {
+    color: #fff;
+    font-weight: 500;
+}
+
+.detail-row .highlight {
+    color: #a78bfa;
+    font-weight: 600;
+}
+
+.detail-row .green {
+    color: #10b981;
+}
+
+.detail-row .yellow {
+    color: #f59e0b;
+}
+
+.detail-row .red {
+    color: #ef4444;
+}
+
+/* Footer */
+.swap-footer {
+    margin-top: 16px;
+    text-align: center;
+}
+
+.info-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 8px;
+    color: #a78bfa;
+    font-size: 12px;
+}
+
+/* Token Selector Dropdown - Inside Form */
+.token-selector-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 8px;
+    background: rgba(30, 27, 75, 0.98);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 16px;
+    padding: 16px;
+    z-index: 100;
+    animation: slideDown 0.2s ease;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.token-dropdown-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #a78bfa;
+    margin: 0 0 12px 0;
+    text-align: center;
+}
+
+/* Token Grid Layout */
+.token-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.token-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 8px;
+    background: rgba(139, 92, 246, 0.1);
+    border: 2px solid rgba(139, 92, 246, 0.2);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.token-card:hover:not(.disabled) {
+    background: rgba(139, 92, 246, 0.2);
+    border-color: rgba(139, 92, 246, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+}
+
+.token-card.selected {
+    background: rgba(139, 92, 246, 0.3);
+    border-color: #8b5cf6;
+}
+
+.token-card.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* .token-icon-large {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 18px;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+} */
+
+.token-icon-large.usdc {
+    background: linear-gradient(135deg, #2775ca 0%, #5294e0 100%);
+}
+
+.token-icon-large.eurc {
+    background: linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%);
+}
+
+.token-icon-large.usdt {
+    background: linear-gradient(135deg, #26a17b 0%, #50af95 100%);
+}
+
+.token-info-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.token-symbol-large {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.token-name-small {
+    font-size: 10px;
+    color: #94a3b8;
+    text-align: center;
+}
+
+.token-balance-large {
+    font-size: 11px;
+    color: #a78bfa;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .swap-page {
+        padding: 1rem;
+    }
+
+    .swap-container {
+        padding: 20px;
+    }
+
+    .token-input input {
+        font-size: 24px;
+    }
+
+    .token-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+}

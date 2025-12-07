@@ -1,0 +1,84 @@
+/* --- CONTACT FOOTER STYLES (Arc Dark Mode) --- */
+
+.contact-footer-web3 {
+    width: 100%;
+    max-width: 600px;
+    margin: 40px auto 20px auto;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Border phân cách tối */
+    border-top: 1px solid #334155;
+    font-size: 13px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.footer-links a {
+    color: #a0a0a0;
+    /* Màu xám nhạt */
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: #ffffff;
+    /* Trắng khi hover */
+}
+
+/* Style cho liên kết "Your Privacy Choices" */
+.privacy-choices-link {
+    display: flex;
+    align-items: center;
+    color: #3b82f6 !important;
+    font-weight: 500;
+}
+
+.privacy-choices-link .blue-icon {
+    margin-left: 5px;
+    font-size: 10px;
+}
+
+/* Style cho các biểu tượng xã hội */
+.social-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: white;
+    transition: transform 0.2s ease;
+}
+
+.social-icons a:hover {
+    transform: translateY(-2px);
+}
+
+/* Màu nền Social Icons */
+.discord-bg {
+    background-color: #ffffff;
+    /* Discord Purple */
+}
+
+.twitter-bg {
+    /* Twitter/X icon trên nền tối */
+    background-color: #1a202c;
+    border: 1px solid #475569;
+    color: #ffffff;
+}
+
+.youtube-bg {
+    background-color: #34aeff;
+    /* YouTube Red */
+}
