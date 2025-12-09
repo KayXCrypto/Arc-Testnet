@@ -1,33 +1,33 @@
-// -------------------------------
-// MintPage.jsx
-// -------------------------------
 import React, { useState, useEffect } from 'react';
 import { useAccount, useBalance } from 'wagmi';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { CreditCard, Zap, Info, Shield, Loader2, CheckCircle, AlertCircle } from 'lucide-react';
+// Đảm bảo các component này đã được tạo
 import { MintService } from '../../utils/mintContract';
 import AssetTabBottom from '../AssetTabBottom';
 import ContactFooter from '../ContactFooter';
 import '../../styles/mint.css';
-import ArcCardTemplate from '../../assets/premium.png';
+import ArcCardTemplate from '../../assets/premium.png'
 
-// Khởi tạo dịch vụ Mint
+// Khởi tạo dịch vụ Mint (Giả định file mintContract.js đã được đặt đúng)
 const mintService = new MintService();
 const USDC_ADDRESS = '0x3600000000000000000000000000000000000000';
-const IPFS_API_URL = 'https://ipfs-server-1coo.onrender.com/api/generate';
 
 const MintPage = () => {
     const { address, isConnected } = useAccount();
+
+    // --- State
     const [mintPrice, setMintPrice] = useState(0);
     const [totalMinted, setTotalMinted] = useState(0);
     const [maxSupply] = useState(1000);
     const [hasMinted, setHasMinted] = useState(false);
     const [userName, setUserName] = useState('');
-    const [ipAddress, setIpAddress] = useState(''); // Thay đổi: không còn giá trị mặc định
+    const [ipAddress] = useState('192.168.1.1');
     const [isLoading, setIsLoading] = useState(false);
     const [statusMessage, setStatusMessage] = useState('Connect your wallet to check the status.');
     const [step, setStep] = useState(0);
 
+    // Fetch USDC balance
     const { data: usdcBalanceData } = useBalance({
         address: address,
         token: USDC_ADDRESS,
@@ -35,40 +35,10 @@ const MintPage = () => {
     });
     const usdcBalance = usdcBalanceData ? parseFloat(usdcBalanceData.formatted) : 0;
 
-    // -------------------------------
-    // Fetch Real IP Address
-    // -------------------------------
-    useEffect(() => {
-        const fetchRealIP = async () => {
-            try {
-                // Sử dụng API miễn phí để lấy IP thật
-                const response = await fetch('https://api.ipify.org?format=json');
-                const data = await response.json();
-                setIpAddress(data.ip);
-                console.log('Real IP Address:', data.ip);
-            } catch (error) {
-                console.error('Error fetching IP:', error);
-                // Fallback: thử API khác nếu API đầu tiên fail
-                try {
-                    const response = await fetch('https://api.my-ip.io/ip');
-                    const ip = await response.text();
-                    setIpAddress(ip.trim());
-                    console.log('Real IP Address (fallback):', ip.trim());
-                } catch (fallbackError) {
-                    console.error('Error fetching IP (fallback):', fallbackError);
-                    setIpAddress('unknown');
-                }
-            }
-        };
 
-        fetchRealIP();
-    }, []);
-
-    // -------------------------------
-    // Fetch initial mint data
-    // -------------------------------
+    // --- Logic Fetch Data (Giữ nguyên)
     useEffect(() => {
-        if (!address || !ipAddress) return;
+        if (!address) return;
 
         const fetchData = async () => {
             setIsLoading(true);
@@ -86,6 +56,7 @@ const MintPage = () => {
                     setStatusMessage(`Ready to mint. Price: ${data.mintPrice.toFixed(2)} USDC.`);
                     setStep(1);
                 }
+
             } catch (error) {
                 console.error("Mint data loading error:", error);
                 setStatusMessage('Data loading error. Please check the console.');
@@ -95,11 +66,10 @@ const MintPage = () => {
         };
 
         fetchData();
-    }, [address, ipAddress]); // Thêm ipAddress vào dependency
+    }, [address]);
 
-    // -------------------------------
-    // Handlers
-    // -------------------------------
+
+    // --- Handlers (Giữ nguyên)
     const handleApprove = async () => {
         if (usdcBalance < mintPrice) {
             setStatusMessage('Error: Insufficient USDC balance.');
@@ -114,7 +84,7 @@ const MintPage = () => {
             setStep(2);
         } catch (error) {
             console.error("Approve Error:", error);
-            setStatusMessage(`Approve Error: Transaction was rejected or allowance exhausted.`);
+            setStatusMessage(`Approve Error: Transaction was rejected or the allowance has been exhausted.`);
         } finally {
             setIsLoading(false);
         }
@@ -131,97 +101,49 @@ const MintPage = () => {
             return;
         }
 
-        if (!ipAddress || ipAddress === 'unknown') {
-            setStatusMessage('Error: Unable to verify IP address. Please refresh the page.');
-            return;
-        }
-
         setIsLoading(true);
-        setStatusMessage('Generating your personalized card image...');
-
+        setStatusMessage('Waiting for NFT minting...');
         try {
-            // STEP 1: Gọi API để tạo ảnh card và upload lên IPFS
-            const response = await fetch(IPFS_API_URL, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name: userName.trim(),
-                    walletAddress: address
-                })
-            });
+            await mintService.mintNFT(ipAddress, userName.trim(), mintPrice);
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => ({}));
-                throw new Error(errorData.error || "Failed to generate card and upload to IPFS");
-            }
-
-            const data = await response.json();
-
-            // API trả về: { imageUrl, metadataUrl }
-            // imageUrl: URL ảnh trên IPFS (ipfs://...)
-            // metadataUrl: URL metadata trên IPFS (ipfs://...)
-            const metadataUrl = data.metadataUrl;
-
-            if (!metadataUrl) {
-                throw new Error("No metadata URL received from IPFS server");
-            }
-
-            console.log("Card generated successfully:", {
-                imageUrl: data.imageUrl,
-                metadataUrl: data.metadataUrl
-            });
-
-            setStatusMessage('Card generated! Minting NFT on blockchain...');
-
-            // STEP 2: Mint NFT trên blockchain với metadata URL từ IPFS
-            // Gửi cả IP address và wallet address để backend kiểm tra
-            console.log('Minting with IP:', ipAddress);
-            await mintService.mintNFT(ipAddress, userName.trim(), mintPrice, metadataUrl);
-
-            setStatusMessage('🎉 Congratulations! You minted the Arc Premium Card!');
+            setStatusMessage('Congratulations! You have successfully minted the Arc Premium Card!');
             setHasMinted(true);
             setTotalMinted(prev => prev + 1);
             setStep(3);
-
         } catch (error) {
-            console.error("Mint error:", error);
-
-            // Kiểm tra các loại lỗi cụ thể
-            if (error.message && error.message.includes('IP has already minted')) {
-                setStatusMessage("Error: This IP address has already minted an NFT.");
-            } else if (error.message && error.message.includes('Wallet has already minted')) {
-                setStatusMessage("Error: This wallet has already minted an NFT.");
-            } else {
-                setStatusMessage(`Mint error: ${error.message || 'Transaction failed'}`);
-            }
+            console.error("Error Mint:", error);
+            setStatusMessage(`Error Mint: Wallet/IP has already minted or the transaction was rejected.`);
         } finally {
             setIsLoading(false);
         }
     };
 
-    // -------------------------------
-    // Render button logic
-    // -------------------------------
     const renderActionButton = () => {
-        if (!isConnected) return <ConnectButton label="Connect Wallet & Mint" />;
+        if (!isConnected) {
+            return <ConnectButton label="Connect Wallet & Mint" />;
+        }
 
-        if (hasMinted) return (
-            <button disabled className="mint-action-button success">
-                <CheckCircle size={20} /> Minted (Own)
-            </button>
-        );
+        if (hasMinted) {
+            return (
+                <button disabled className="mint-action-button success">
+                    <CheckCircle size={20} /> Minted (Own)
+                </button>
+            );
+        }
 
-        if (usdcBalance < mintPrice) return (
-            <button disabled className="mint-action-button disabled">
-                <AlertCircle size={20} /> Missing {mintPrice.toFixed(2)} USDC
-            </button>
-        );
+        if (usdcBalance < mintPrice) {
+            return (
+                <button disabled className="mint-action-button disabled">
+                    <AlertCircle size={20} /> Missing {mintPrice.toFixed(2)} USDC
+                </button>
+            );
+        }
 
         if (step === 1 || step === 0) {
             return (
                 <button
                     onClick={handleApprove}
-                    disabled={isLoading || !ipAddress}
+                    disabled={isLoading}
                     className={`mint-action-button ${isLoading ? 'loading' : 'approve'}`}
                 >
                     {isLoading ? <Loader2 className="spinner" size={20} /> : <Shield size={20} />}
@@ -235,7 +157,7 @@ const MintPage = () => {
             return (
                 <button
                     onClick={handleMint}
-                    disabled={isLoading || isNameMissing || !ipAddress}
+                    disabled={isLoading || isNameMissing}
                     className={`mint-action-button ${isLoading ? 'loading' : isNameMissing ? 'disabled' : 'mint'}`}
                 >
                     {isLoading ? <Loader2 className="spinner" size={20} />
@@ -249,11 +171,10 @@ const MintPage = () => {
         return null;
     };
 
-    // -------------------------------
-    // Render UI
-    // -------------------------------
     return (
+        // 🌟 SỬ DỤNG FRAGMENT để đặt nội dung chính và footer
         <>
+            {/* Thay thế <main className="mint-container"> bằng div để tránh lồng thẻ <main> */}
             <div className="mint-content-container">
                 <div className="mint-header">
                     <h1 className="mint-title">Arc Premium Card NFT</h1>
@@ -261,24 +182,30 @@ const MintPage = () => {
                 </div>
 
                 <div className="mint-card-grid">
-                    {/* Left: Card Preview */}
+                    {/* --- Cột bên trái: Card NFT Preview --- */}
                     <div className="premium-card-mockup">
                         <div className="card-image-placeholder">
-                            <img src={ArcCardTemplate} alt="Arc Premium Card NFT" className="card-image-actual" />
+                            <img
+                                src={ArcCardTemplate}
+                                alt="Arc Premium Card NFT"
+                                className="card-image-actual"
+                            />
                         </div>
                         <div className="card-info-box">
                             <h3 className="card-info-title">Exclusive benefits</h3>
                             <ul className="card-benefits-list">
                                 <li>Discounted transaction fees on Arc Swap</li>
                                 <li>Early access to new features</li>
-                                <li>Enhanced staking rewards</li>
+                                <li>Tăng cường phần thưởng Staking</li>
                                 <li>Price: {mintPrice.toFixed(2)} USDC</li>
                             </ul>
                         </div>
                     </div>
 
-                    {/* Right: Mint Controls */}
+                    {/* --- Cột bên phải: Mint Controls --- */}
                     <div className="mint-controls">
+
+                        {/* INPUT TÊN NGƯỜI DÙNG */}
                         <div className="user-name-input-group">
                             <label htmlFor="userName" className="input-label">Register Card</label>
                             <input
@@ -313,32 +240,26 @@ const MintPage = () => {
                         </div>
 
                         {isConnected && (
-                            <>
-                                <div className="balance-info">
-                                    <span className="label">My USDC Balance:</span>
-                                    <span className="value">{usdcBalance.toFixed(2)} USDC</span>
-                                </div>
-                                {ipAddress && ipAddress !== 'unknown' && (
-                                    <div className="balance-info" style={{ fontSize: '0.85rem', opacity: 0.7 }}>
-                                        <span className="label">Your IP:</span>
-                                        <span className="value">{ipAddress}</span>
-                                    </div>
-                                )}
-                            </>
+                            <div className="balance-info">
+                                <span className="label">My USDC Balance:</span>
+                                <span className="value">{usdcBalance.toFixed(2)} USDC</span>
+                            </div>
                         )}
 
                         {renderActionButton()}
 
                         <div className="mint-info-footer">
                             <Zap size={16} color="#3b82f6" />
-                            <span>Mint is limited to 1 card per wallet and IP. Arc Testnet gas fee required.</span>
+                            <span>Mint is limited to 1 card per wallet. Arc Testnet gas fee required.</span>
                         </div>
+
                     </div>
                 </div>
 
                 <AssetTabBottom />
             </div>
 
+            {/* ContactFooter nằm ngoài content container, đảm bảo luôn ở cuối trang */}
             <ContactFooter />
         </>
     );
