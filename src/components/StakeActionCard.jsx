@@ -32,10 +32,10 @@ const ERC20_ABI = [
 
 // Các tùy chọn khóa (tính bằng Ngày)
 const LOCK_OPTIONS = [
-  { label: 'Không khóa (0 Ngày)', value: 0 },
-  { label: '30 Ngày (+3% Bonus)', value: 30 },
-  { label: '90 Ngày (+3% Bonus)', value: 90 },
-  { label: '365 Ngày (Max Bonus)', value: 365 },
+  { label: 'No lock (0 Days)', value: 0 },
+  { label: '30 Days (+3% Bonus)', value: 30 },
+  { label: '90 Days (+9% Bonus)', value: 90 },
+  { label: '365 Days (Max Bonus)', value: 365 },
 ];
 
 const shortenHash = (hash) => {

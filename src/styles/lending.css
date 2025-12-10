@@ -1,0 +1,135 @@
+/* lending.css - Cập nhật để giống ảnh mẫu image_185598.png */
+
+/* 1. CONTAINER CHUNG VÀ CÁC THIẾT LẬP CƠ BẢN */
+.table-container {
+  /* Dùng màu nền tối hơn (từ ảnh mẫu có vẻ là #1c1f26 hoặc #121417) */
+  background-color: #121417; 
+  border-radius: 12px;
+  padding: 16px 20px; /* Tăng padding để có không gian */
+  font-family: 'Inter', sans-serif;
+  color: #e0e0e0;
+  max-width: 1000px; /* Tùy chỉnh nếu cần */
+  margin: 20px auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* Thêm bóng nhẹ */
+}
+
+/* 2. THIẾT LẬP BẢNG */
+.table-container table {
+  width: 100%;
+  border-collapse: separate;
+  /* Bỏ border-spacing và dùng margin/padding để tạo khoảng cách giữa các hàng */
+  border-spacing: 0; 
+}
+
+/* 3. ĐẦU BẢNG (HEADER) */
+.table-container thead tr th {
+  color: #8a8f99; /* Màu chữ tiêu đề */
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 16px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid #272b33; /* Đường gạch dưới mỏng cho header */
+}
+
+/* Điều chỉnh lại padding cho cột đầu tiên (Asset) */
+.table-container thead tr th:first-child {
+  padding-left: 0;
+}
+
+/* 4. THÂN BẢNG (BODY) VÀ HÀNG (ROW) */
+.table-container tbody {
+    /* Đảm bảo không có đường gạch ngang ở trên hàng đầu tiên */
+}
+
+.table-container tbody tr {
+  /* Màu nền của hàng, tương tự màu nền của container nhưng sáng hơn một chút */
+  background: #1c1f26; 
+  /* Bỏ box-shadow vì ảnh mẫu có vẻ không dùng hoặc rất mờ */
+  box-shadow: none; 
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+  margin-bottom: 12px; /* Khoảng cách giữa các hàng */
+  display: table-row; /* Đảm bảo hiển thị như hàng */
+  overflow: hidden; /* Giúp bo góc hoạt động tốt */
+}
+
+/* Áp dụng bo góc cho hàng */
+.table-container tbody tr td:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.table-container tbody tr td:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.table-container tbody tr:hover {
+  background: #272b33;
+}
+
+/* 5. DỮ LIỆU CỦA Ô (CELL DATA) */
+.table-container tbody tr td {
+  padding: 14px 16px;
+  font-weight: 500; /* Thay đổi từ 600 thành 500 cho giao diện nhẹ nhàng hơn */
+  font-size: 15px;
+  vertical-align: middle;
+  line-height: 1.4;
+}
+
+/* 6. CỘT ASSET (ASSET CELL) */
+.asset-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Giảm gap một chút */
+  font-weight: 700;
+  font-size: 16px;
+  color: white;
+  padding-left: 0 !important; /* Bỏ padding bên trái cho cột Asset */
+}
+
+/* Icon (mặc dù icon trong ảnh mẫu là SVG/PNG, chúng ta vẫn giữ định dạng cơ bản) */
+.asset-icon {
+  width: 28px; /* Tăng kích thước icon */
+  height: 28px;
+  border-radius: 50%;
+  background-color: transparent; /* icon trong ảnh mẫu không có nền */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 18px; /* Kích thước icon */
+}
+
+/* 7. APY & AMOUNTS (SỐ TIỀN) */
+
+/* Màu Supply APY (xanh lá cây) */
+.supply-apy {
+  color: #0ecb81; 
+  font-weight: 700;
+}
+
+/* Màu Borrow APY (đỏ/cam) */
+.borrow-apy {
+  color: #f42a2a; /* Có thể dùng màu đỏ đậm hơn hoặc cam #ff6b6b nếu muốn */
+  font-weight: 700;
+}
+
+/* Phần chữ nhỏ (ví dụ $162.39M) */
+.amount-subtext {
+  color: #72767a;
+  font-weight: 400;
+  font-size: 12px;
+  margin-top: 2px;
+  display: block; /* Đảm bảo nó xuống dòng */
+}
+
+/* Các số liệu chính (Total Supply, Total Borrow, Liquidity) */
+.table-container tbody tr td:nth-child(2),
+.table-container tbody tr td:nth-child(4),
+.table-container tbody tr td:nth-child(6) {
+    font-weight: 600;
+    color: white;
+}

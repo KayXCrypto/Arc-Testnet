@@ -1,0 +1,474 @@
+/* MarketDetailPage.css - Venus Protocol Inspired */
+
+/* --- Root Variables --- */
+:root {
+    --venus-primary: #1ba27a;
+    --venus-primary-hover: #15876a;
+    --venus-bg-dark: #0a1f1a;
+    --venus-bg-card: #0d2822;
+    --venus-bg-input: #112d27;
+    --venus-border: #1a4339;
+    --venus-text-primary: #ffffff;
+    --venus-text-secondary: #8b9e98;
+    --venus-success: #1ba27a;
+    --venus-warning: #ffa726;
+    --venus-error: #e53e3e;
+}
+
+/* --- Main Container --- */
+.market-detail-page {
+    background: linear-gradient(180deg, #0a1f1a 0%, #050f0d 100%);
+    min-height: 100vh;
+    padding: 0;
+    color: var(--venus-text-primary);
+}
+
+.max-w-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 24px;
+}
+
+/* --- Back Button --- */
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--venus-text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 24px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid var(--venus-border);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.back-button:hover {
+    background: var(--venus-bg-input);
+    color: var(--venus-text-primary);
+    border-color: var(--venus-primary);
+}
+
+.back-button svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* --- Market Header --- */
+.market-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--venus-border);
+}
+
+.market-header .asset-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--venus-bg-card);
+    border-radius: 50%;
+    border: 2px solid var(--venus-border);
+}
+
+.market-header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+}
+
+/* --- Grid Layout --- */
+.market-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+@media (min-width: 1024px) {
+    .market-grid {
+        grid-template-columns: 1fr 420px;
+    }
+}
+
+/* --- Market Stats Card --- */
+.market-stats-card {
+    background: var(--venus-bg-card);
+    border: 1px solid var(--venus-border);
+    border-radius: 16px;
+    padding: 32px;
+    backdrop-filter: blur(10px);
+}
+
+.market-stats-card h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 24px 0;
+    color: var(--venus-text-primary);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.info-box {
+    background: var(--venus-bg-input);
+    border: 1px solid var(--venus-border);
+    padding: 20px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.info-box:hover {
+    transform: translateY(-4px);
+    border-color: var(--venus-primary);
+    box-shadow: 0 8px 24px rgba(27, 162, 122, 0.15);
+}
+
+.info-box p {
+    margin: 0;
+}
+
+.info-box .text-sm {
+    font-size: 13px;
+    color: var(--venus-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.info-box .text-lg {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--venus-text-primary);
+}
+
+.info-box .text-xl {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.text-green-400, .text-green-500 { 
+    color: var(--venus-success); 
+}
+
+.text-red-400, .text-red-500 { 
+    color: var(--venus-error); 
+}
+
+.text-gray-400 {
+    color: var(--venus-text-secondary);
+}
+
+/* --- Action Panel Card --- */
+.action-panel-card {
+    background: var(--venus-bg-card);
+    border: 1px solid var(--venus-border);
+    border-radius: 16px;
+    padding: 32px;
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 24px;
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+}
+
+/* Custom scrollbar */
+.action-panel-card::-webkit-scrollbar {
+    width: 6px;
+}
+
+.action-panel-card::-webkit-scrollbar-track {
+    background: var(--venus-bg-input);
+    border-radius: 3px;
+}
+
+.action-panel-card::-webkit-scrollbar-thumb {
+    background: var(--venus-border);
+    border-radius: 3px;
+}
+
+.action-panel-card::-webkit-scrollbar-thumb:hover {
+    background: var(--venus-primary);
+}
+
+/* --- Tab Actions --- */
+.tab-actions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    background: var(--venus-bg-input);
+    padding: 6px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.tab-actions button {
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    color: var(--venus-text-secondary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.tab-actions button:hover:not(:disabled) {
+    color: var(--venus-text-primary);
+    background: rgba(27, 162, 122, 0.1);
+}
+
+.tab-actions button.active {
+    background: var(--venus-primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(27, 162, 122, 0.3);
+}
+
+.tab-actions button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* --- User Position Info --- */
+.user-position-info {
+    background: var(--venus-bg-input);
+    border: 1px solid var(--venus-border);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.user-position-info p {
+    margin: 0 0 12px 0;
+}
+
+.user-position-info .text-white {
+    color: var(--venus-text-primary);
+}
+
+.user-position-info .flex {
+    display: flex;
+}
+
+.user-position-info .justify-between {
+    justify-content: space-between;
+}
+
+.user-position-info .mb-1 {
+    margin-bottom: 8px;
+}
+
+/* --- Input Group --- */
+.input-group {
+    margin-bottom: 24px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--venus-text-primary);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.input-container {
+    position: relative;
+}
+
+.amount-input {
+    width: 100%;
+    background: var(--venus-bg-input);
+    color: var(--venus-text-primary);
+    padding: 16px 70px 16px 16px;
+    border-radius: 12px;
+    border: 2px solid var(--venus-border);
+    transition: all 0.2s ease;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.amount-input:focus {
+    border-color: var(--venus-primary);
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(27, 162, 122, 0.1);
+}
+
+.amount-input::placeholder {
+    color: var(--venus-text-secondary);
+    opacity: 0.6;
+}
+
+.amount-input:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.max-button {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--venus-primary);
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.max-button:hover {
+    background: var(--venus-primary-hover);
+    transform: translateY(-50%) scale(1.05);
+}
+
+.input-group .text-xs {
+    font-size: 13px;
+    color: var(--venus-text-secondary);
+    margin-top: 8px;
+    display: block;
+}
+
+/* --- APY Display --- */
+.flex.justify-between.mb-4 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: var(--venus-bg-input);
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.flex.justify-between.mb-4 span:first-child {
+    font-size: 14px;
+    color: var(--venus-text-secondary);
+}
+
+.flex.justify-between.mb-4 span:last-child {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* --- Action Button --- */
+.action-button {
+    width: 100%;
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.action-button:not(:disabled) {
+    background: linear-gradient(135deg, var(--venus-primary) 0%, #15876a 100%);
+    color: white;
+    box-shadow: 0 4px 16px rgba(27, 162, 122, 0.3);
+}
+
+.action-button:not(:disabled):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(27, 162, 122, 0.4);
+}
+
+.action-button:not(:disabled):active {
+    transform: translateY(0);
+}
+
+.action-button:disabled {
+    background: var(--venus-bg-input);
+    color: var(--venus-text-secondary);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .max-w-container {
+        padding: 16px;
+    }
+
+    .market-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .market-header h1 {
+        font-size: 24px;
+    }
+
+    .market-stats-card,
+    .action-panel-card {
+        padding: 20px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-panel-card {
+        position: relative;
+        top: 0;
+        max-height: none;
+    }
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.market-detail-page > * {
+    animation: fadeIn 0.4s ease;
+}
+
+/* --- Additional Venus-like styling --- */
+.info-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--venus-primary), transparent);
+    border-radius: 12px 12px 0 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.info-box:hover::before {
+    opacity: 1;
+}
+
+.info-box {
+    position: relative;
+    overflow: hidden;
+}

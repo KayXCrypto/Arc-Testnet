@@ -14,50 +14,59 @@ const TARGET_TOKENS = ['USDC', 'INAME', 'ZKCODEX', 'EURC'];
 // HÀM HỖ TRỢ FORMAT DỮ LIỆU
 // =================================================================
 
-// Hàm định dạng số có dấu phẩy (ví dụ: 1234567 -> 1,234,567)
-const formatNumber = (num) => {
-    if (typeof num === 'number' || (typeof num === 'string' && !isNaN(parseInt(num)))) {
-        return Number(num).toLocaleString('en-US', { maximumFractionDigits: 0 });
+// Hàm rút gọn số lớn (ví dụ: 1500 -> 1.5K, 1234567 -> 1.23M)
+// Decimals ở đây là số lượng chữ số thập phân tối đa khi rút gọn
+const formatBigNumber = (num, decimals = 2) => {
+    // Chuyển đổi sang Number nếu là chuỗi số hợp lệ
+    if (typeof num === 'string' && !isNaN(parseFloat(num))) {
+        num = Number(num);
     }
-    return String(num);
+    if (typeof num !== 'number') return String(num);
+
+    const SI_SYMBOL = ["", "K", "M", "B", "T", "P", "E"];
+
+    // Chỉ áp dụng rút gọn nếu số lớn hơn 1000
+    if (Math.abs(num) < 1000) {
+        // Sử dụng toLocaleString để thêm dấu phẩy ngăn cách hàng nghìn nếu cần
+        return num.toLocaleString('en-US', { maximumFractionDigits: decimals });
+    }
+
+    // Chọn tiền tố (K, M, B,...)
+    const tier = Math.floor(Math.log10(Math.abs(num)) / 3);
+
+    // Tính giá trị sau khi chia
+    const scaled = num / Math.pow(1000, tier);
+
+    // Định dạng, loại bỏ số 0 thừa ở phần thập phân và thêm ký hiệu
+    return scaled.toFixed(decimals).replace(/\.0+$/, '') + SI_SYMBOL[tier];
 };
 
-// Hàm định dạng Total Supply dựa trên Decimals
+// Hàm định dạng Total Supply: CHIA DECIMALS và RÚT GỌN K/M/B
 const formatSupply = (supplyRaw, decimalsRaw, type) => {
     if (!supplyRaw || supplyRaw === 'null') return 'N/A';
 
-    // Đối với ERC-721 hoặc token không có decimals (thường là NFT), chỉ format số nguyên
-    if (type !== 'ERC-20' || !decimalsRaw) {
-        return formatNumber(supplyRaw);
+    // Đối với ERC-721 hoặc token không có decimals (thường là NFT), chỉ rút gọn số nguyên thô.
+    if (type !== 'ERC-20' || !decimalsRaw || Number(decimalsRaw) === 0) {
+        return formatBigNumber(supplyRaw, 0); // Rút gọn, không có thập phân
     }
 
     const decimals = Number(decimalsRaw);
-    if (decimals === 0) {
-        return formatNumber(supplyRaw);
-    }
 
-    const supplyString = String(supplyRaw);
-    // Pad supply with leading zeros if necessary
-    const paddedSupply = supplyString.padStart(decimals + 1, '0');
+    // 1. Chuyển supplyRaw thành chuỗi BigInt để tránh mất chính xác khi số quá lớn
+    const supplyBigInt = BigInt(supplyRaw);
+    const divisor = BigInt(10) ** BigInt(decimals);
 
-    // Tìm vị trí dấu thập phân
-    const decimalIndex = paddedSupply.length - decimals;
+    // 2. Để thực hiện phép chia float: Chúng ta chia giá trị thô cho 10^decimals
+    // Lưu ý: JavaScript Number chỉ an toàn đến 2^53. Đối với Total Supply rất lớn, có thể mất chính xác.
+    // Tuy nhiên, đây là cách phổ biến nhất để chuyển đổi BigInt sang giá trị thực tế.
+    const actualSupply = Number(supplyBigInt) / Number(divisor);
 
-    const integerPart = paddedSupply.slice(0, decimalIndex) || '0';
-    const fractionalPart = paddedSupply.slice(decimalIndex);
-
-    // Hiển thị tối đa 4 chữ số thập phân, loại bỏ số 0 thừa
-    let formattedFractional = fractionalPart.substring(0, 4).replace(/0+$/, '');
-
-    // Nếu không có phần thập phân, chỉ hiển thị phần nguyên
-    if (formattedFractional === '') {
-        return formatNumber(integerPart);
-    }
-
-    return `${formatNumber(integerPart)}.${formattedFractional}`;
+    // 3. Rút gọn giá trị đã chia
+    // Sử dụng 2 chữ số thập phân khi rút gọn (K/M/B)
+    return formatBigNumber(actualSupply, 2);
 };
 
-// Hàm lấy icon
+// Hàm lấy icon (giữ nguyên)
 const getTokenIcon = (symbol) => {
     switch (symbol.toUpperCase()) {
         case 'USDC':
@@ -74,7 +83,7 @@ const getTokenIcon = (symbol) => {
 };
 
 // =================================================================
-// COMPONENT CHÍNH
+// COMPONENT CHÍNH (Giữ nguyên logic)
 // =================================================================
 
 const TokenRateCard = () => {
@@ -93,19 +102,21 @@ const TokenRateCard = () => {
 
             // Xử lý và lọc dữ liệu từ API
             const filteredRates = TARGET_TOKENS.map(targetSymbol => {
-                // Tìm token trong mảng dữ liệu API
                 const token = apiData.items.find(t => t.symbol === targetSymbol);
 
                 if (token) {
+                    // Total Supply: Đã CHIA DECIMALS và RÚT GỌN K/M/B
                     const totalSupplyFormatted = formatSupply(token.total_supply, token.decimals, token.type);
+
+                    // Holders Count: RÚT GỌN K/M/B
+                    const holdersFormatted = formatBigNumber(token.holders_count || 0, 0); // Holders là số nguyên, không cần thập phân
 
                     return {
                         symbol: token.symbol,
                         name: token.name,
                         totalSupply: totalSupplyFormatted,
-                        holders: formatNumber(token.holders_count || 0),
+                        holders: holdersFormatted,
                         icon: getTokenIcon(token.symbol),
-                        // Ghi chú: Giá không có sẵn (exchange_rate = null)
                         price: 'N/A',
                     };
                 } else {
@@ -139,7 +150,6 @@ const TokenRateCard = () => {
 
     useEffect(() => {
         loadTokenPrices();
-        // Tự động làm mới sau mỗi 30 giây
         const interval = setInterval(loadTokenPrices, 30000);
 
         return () => clearInterval(interval);
@@ -167,13 +177,13 @@ const TokenRateCard = () => {
                             </div>
                         </div>
 
-                        {/* Cột 2: Total Supply */}
+                        {/* Cột 2: Total Supply (Đã CHIA DECIMALS và RÚT GỌN K/M/B) */}
                         <div className="text-right mr-4">
                             <span className="rate text-base font-bold block">{token.totalSupply}</span>
                             <span className="name text-xs block text-gray-500">Supply</span>
                         </div>
 
-                        {/* Cột 3: Holders Count */}
+                        {/* Cột 3: Holders Count (RÚT GỌN K/M/B) */}
                         <div className="text-right flex items-center">
                             <Users className="w-4 h-4 text-gray-500 mr-1" />
                             <div className='flex flex-col'>

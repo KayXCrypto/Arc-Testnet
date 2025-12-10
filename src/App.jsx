@@ -5,12 +5,25 @@ import Header from './components/Header';
 import Sidebar from './components/Sidebar';
 import MainContent from './components/MainContent';
 import BridgePage from './components/pages/BridgePage';
-import StakingPage from './components/pages/StakingPage'; // Đảm bảo import này đã đúng
+import StakingPage from './components/pages/StakingPage';
 import SwapPage from './components/pages/SwapPage';
 import MintPage from './components/pages/MintPage';
+import MarketDetailPage from './components/pages/MarketDetailPage'; // 🌟 IMPORT THÊM
+import HistoryPage from './components/pages/HistoryPage';
 
 const App = () => {
-  const [activePage, setActivePage] = useState('home'); // 'home', 'bridge', 'staking', etc.
+  const [activePage, setActivePage] = useState('home');
+  const [selectedMarket, setSelectedMarket] = useState(null); // 🌟 STATE MỚI
+
+  // 🌟 HÀM XỬ LÝ KHI CLICK VÀO MARKET
+  const handleMarketSelect = (marketAddress) => {
+    setSelectedMarket(marketAddress);
+  };
+
+  // 🌟 HÀM XỬ LÝ QUAY LẠI TRANG LENDING
+  const handleBackToMarkets = () => {
+    setSelectedMarket(null);
+  };
 
   // Hàm xử lý hiển thị nội dung trang dựa trên activePage
   const renderPage = () => {
@@ -18,17 +31,36 @@ const App = () => {
       case 'bridge':
         return <BridgePage />;
       case 'staking':
-        // 🌟 HIỂN THỊ STAKINGPAGE KHI activePage LÀ 'staking'
         return <StakingPage />;
       case 'swap':
         return <SwapPage />;
       case 'mint':
         return <MintPage />;
+      case 'explorer':
+        return <HistoryPage />;
       case 'home':
-        return <MainContent />;
+        // 🌟 ĐIỀU KIỆN HIỂN THỊ MARKET DETAIL HOẶC MAIN CONTENT
+        if (selectedMarket) {
+          return (
+            <MarketDetailPage
+              marketAddress={selectedMarket}
+              onBack={handleBackToMarkets}
+            />
+          );
+        }
+        return <MainContent onMarketSelect={handleMarketSelect} />;
       case 'vai':
       default:
-        return <MainContent />;
+        // 🌟 CŨNG XỬ LÝ CHO DEFAULT CASE
+        if (selectedMarket) {
+          return (
+            <MarketDetailPage
+              marketAddress={selectedMarket}
+              onBack={handleBackToMarkets}
+            />
+          );
+        }
+        return <MainContent onMarketSelect={handleMarketSelect} />;
     }
   };
 
@@ -36,10 +68,8 @@ const App = () => {
     <div className="min-h-screen bg-gray-950 text-white">
       <Header activePage={activePage} setActivePage={setActivePage} />
       <div className="flex">
-        {/* Sidebar sẽ gọi setActivePage('staking') khi click */}
         <Sidebar activePage={activePage} setActivePage={setActivePage} />
 
-        {/* Conditional Rendering based on active page */}
         <main className="flex-1 p-8 bg-gray-950">
           {renderPage()}
         </main>

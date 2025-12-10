@@ -55,7 +55,7 @@
 .mint-card-grid {
     display: grid;
     /* ⭐ Tỉ lệ 2.5fr cho Card (62.5%) và 1.5fr cho Controls (37.5%) */
-    grid-template-columns: 2.5fr 1.5fr;
+    grid-template-columns: 2.5fr 1fr;
     gap: 30px;
     margin-top: 30px;
 }

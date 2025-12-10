@@ -27,7 +27,7 @@ const DynamicChart = ({ data, isLoading }) => {
     if (isLoading) {
         return (
             <div className="chart-loading-state" style={{ height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', color: '#A0AEC0' }}>
-                <p>Đang tải dữ liệu lịch sử...</p>
+                <p>Loading data history...</p>
             </div>
         );
     }
@@ -107,7 +107,7 @@ const StakingChartCard = () => {
             <div className="chart-header">
                 <h3 className="card-title">Staking</h3>
                 {isLoadingTvl ? (
-                    <span className="staking-value">Đang tải TVL...</span>
+                    <span className="staking-value">Loading TVL...</span>
                 ) : (
                     <span className="staking-value">
                         {tvlFormatted} {stakeSymbol} <small>(Total Staked)</small>
