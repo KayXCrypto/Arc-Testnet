@@ -15,7 +15,7 @@ const StakingPage = () => {
     const { isConnected } = useAccount();
 
     // Nội dung khi ví đã kết nối (Giao diện Staking thực tế)
-    const ConnectedContent = () => (
+    const MainContent = () => (
         // Sử dụng grid 3 cột, với cột trái chiếm 2/3 và cột phải chiếm 1/3 (dựa trên hình ảnh)
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
@@ -53,7 +53,7 @@ const StakingPage = () => {
 
                 {/* Khối chính - Hiển thị động */}
                 <div className="w-full p-6 lg:p-10 bg-gray-800 rounded-2xl shadow-xl border border-gray-700">
-                    {isConnected ? <ConnectedContent /> : <DisconnectedContent />}
+                    <MainContent />
                 </div>
             </div>
         </main>

@@ -201,7 +201,7 @@ export const formatArcTransactions = (transactions, tokenTransfers, walletAddres
       amount: `${amount} ${tokenSymbol}`,
       status: isError ? 'failed' : (isPending ? 'pending' : 'success'),
       timestamp: parseInt(tx.timeStamp) * 1000,
-      gasUsed: `${gasCost.toFixed(6)} ARC`,
+      gasUsed: `${gasCost.toFixed(6)} USDC`,
       blockNumber: parseInt(tx.blockNumber),
       methodId: tx.input?.slice(0, 10),
       confirmations: parseInt(tx.confirmations || 0)

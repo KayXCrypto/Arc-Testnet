@@ -74,6 +74,7 @@ const BridgePage = () => {
     })();
 
     // read balances & allowance
+    // Chỉ kích hoạt query khi isConnected là true
     const {
         data: usdcSourceBalance = 0n,
         isLoading: isSourceBalanceLoading,
@@ -275,7 +276,7 @@ const BridgePage = () => {
         setBurnSuccessMessage(null);
 
         if (!isConnected) {
-            alert('Vui lòng kết nối ví.');
+            // Khi chưa kết nối ví, nút sẽ hiển thị "Connect Wallet" và không làm gì khác ngoài alert.
             return;
         }
 
@@ -510,7 +511,15 @@ const BridgePage = () => {
         return 'Bridge USDC';
     };
 
-    const isActionButtonDisabled = !isConnected || isProcessing || !!validationError || (amountInWei === 0n && !requiresApproval) || !sourceChainConfig || !destinationChainConfig;
+    // Nút action chỉ bị disabled nếu chưa kết nối VÀ KHÔNG phải đang ở trạng thái xử lý
+    const isActionButtonDisabled = isProcessing || !!validationError || (amountInWei === 0n && !requiresApproval) || !sourceChainConfig || !destinationChainConfig || (isConnected && amountInWei === 0n);
+
+    // Hàm hiển thị số dư, trả về "---" nếu chưa kết nối
+    const renderBalance = (balance, isLoading) => {
+        if (!isConnected) return '---';
+        if (isLoading) return '...';
+        return formatBalance(balance, USDC_DECIMALS, 2);
+    };
 
     return (
         <div className="bridge-container">
@@ -521,11 +530,9 @@ const BridgePage = () => {
                 <div className="chain-selector-group-top">
                     <div className="flex justify-between items-center mb-2">
                         <label>From chain</label>
-                        {isConnected && sourceChainConfig && (
-                            <span className="text-sm text-gray-400 font-medium">
-                                USDC : {isSourceBalanceLoading ? '...' : `${formatBalance(usdcSourceBalance, USDC_DECIMALS, 2)}`}
-                            </span>
-                        )}
+                        <span className="text-sm text-gray-400 font-medium">
+                            USDC : {renderBalance(usdcSourceBalance, isSourceBalanceLoading)}
+                        </span>
                     </div>
                     <select
                         value={sourceChainId}
@@ -550,11 +557,9 @@ const BridgePage = () => {
                 <div className="chain-selector-group-bottom">
                     <div className="flex justify-between items-center mb-2">
                         <label>To the chain</label>
-                        {isConnected && destinationChainConfig && (
-                            <span className="text-sm text-gray-400 font-medium">
-                                USDC : {isDestinationBalanceLoading ? '...' : `${formatBalance(usdcDestinationBalance, USDC_DECIMALS, 2)}`}
-                            </span>
-                        )}
+                        <span className="text-sm text-gray-400 font-medium">
+                            USDC : {renderBalance(usdcDestinationBalance, isDestinationBalanceLoading)}
+                        </span>
                     </div>
                     <select
                         value={destinationChainId}
@@ -573,11 +578,9 @@ const BridgePage = () => {
                 <div className="input-amount-card">
                     <div className="amount-header">
                         <label>Balance USDC</label>
-                        {isConnected && isWalletOnSourceChain && (
-                            <p className="chain-balance text-sm text-gray-400">
-                                Available: {isSourceBalanceLoading ? 'Loading...' : `${formatBalance(usdcSourceBalance, USDC_DECIMALS, 2)} USDC`}
-                            </p>
-                        )}
+                        <p className="chain-balance text-sm text-gray-400">
+                            Available: {isConnected && isWalletOnSourceChain ? (isSourceBalanceLoading ? 'Loading...' : `${formatBalance(usdcSourceBalance, USDC_DECIMALS, 2)} USDC`) : 'Connect wallet to see balance'}
+                        </p>
                     </div>
                     <div className="amount-input-control">
                         <input
@@ -585,9 +588,9 @@ const BridgePage = () => {
                             placeholder="0.00"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value.replace(/[^0-9.]/g, '').slice(0, 20))}
-                            disabled={isProcessing || !isWalletOnSourceChain}
+                            disabled={isProcessing || !isConnected} // 🛑 Vô hiệu hóa input khi chưa kết nối
                         />
-                        {isConnected && isWalletOnSourceChain && usdcSourceBalance > 0n && (
+                        {isConnected && usdcSourceBalance > 0n && (
                             <button className="max-button" onClick={handleSetMaxAmount} disabled={isProcessing}>
                                 MAX
                             </button>
@@ -596,11 +599,13 @@ const BridgePage = () => {
                     <span className="token-symbol">USDC</span>
                 </div>
 
-                <button className="main-action-button" onClick={handleAction} disabled={isActionButtonDisabled}>
+                <button className="main-action-button" onClick={handleAction} disabled={isActionButtonDisabled && isConnected}>
                     {getButtonText()}
                 </button>
 
-                {(isProcessing || currentError || validationError || burnSuccessMessage) && (
+                {!isConnected && <p className="connect-wallet-message">Connect wallet to begin the bridge process</p>}
+
+                {(isProcessing || currentError || validationError || burnSuccessMessage) && isConnected && ( // Chỉ hiển thị trạng thái TX khi đã kết nối
                     <div className="transaction-status-wrapper">
                         {validationError && (
                             <p className="transaction-status error">
@@ -667,7 +672,6 @@ const BridgePage = () => {
                     </div>
                 )}
 
-                {!isConnected && <p className="connect-wallet-message">Connect wallet to bridge USDC</p>}
             </div>
         </div>
     );

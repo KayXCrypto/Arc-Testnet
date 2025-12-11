@@ -156,7 +156,7 @@ const TransactionExplorer = () => {
                 cursor: 'pointer'
               }}
             >
-              Thử lại
+              Try Again
             </button>
           </div>
         </div>
